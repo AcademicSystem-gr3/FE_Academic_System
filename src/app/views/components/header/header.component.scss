@@ -1,0 +1,45 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nz-header{
+  background-color: white;
+
+}
+
+.menu {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.menu li {
+  margin-right: 20px;
+  font-size: large;
+}
+
+.menu li a {
+  margin-left: 20px;
+  color: #333333;
+}
+
+.menu li span {
+  margin-right: 8px;
+}
+
+.logo img {
+  height: 32px;
+}
+
+li .icon{
+  margin-right: 15px;
+}
+
+.noti
+{
+  width: 300px;
+  height: 35px;
+}

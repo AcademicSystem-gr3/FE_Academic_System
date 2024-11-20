@@ -1,0 +1,67 @@
+<nz-affix>
+
+  <nz-layout>
+    <nz-header class="drop-shadow-md">
+      <div class="header-container">
+        <div class="logo">
+          <!-- <h3>LOGO A3S</h3> -->
+          <!-- <img src="assets/logo.png" alt="Logo" style="height: 32px;" /> -->
+
+          <svg width="30" height="30" viewBox="0 0 25 24" class="text-center ml-8 mt-4" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <rect x="0.464294" width="24" height="24" rx="4.8" fill="#1890FF" />
+            <path d="M14.8643 3.6001H20.8643V9.6001H14.8643V3.6001Z" fill="white" />
+            <path d="M10.0643 9.6001H14.8643V14.4001H10.0643V9.6001Z" fill="white" />
+            <path d="M4.06427 13.2001H11.2643V20.4001H4.06427V13.2001Z" fill="white" />
+          </svg>
+
+
+        </div>
+        <ul nz-menu class="menu">
+          <li nz-menu-item nz-dropdown nzTrigger="click" [nzDropdownMenu]="menunotification" nz-button nzType="text">
+            <span nz-icon nzType="notification" nzTheme="outline"></span></li>
+          <!-- Thong bao -->
+          <nz-dropdown-menu #menunotification="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item class="noti"><span class="icon" nz-icon nzType="question-circle"
+                  nzTheme="outline"></span>Notification 1</li>
+              <li nz-menu-item class="noti"><span class="icon" nz-icon nzType="question-circle"
+                  nzTheme="outline"></span>Notification 2</li>
+              <li nz-menu-item class="noti"><span class="icon" nz-icon nzType="question-circle"
+                  nzTheme="outline"></span>Notification 3</li>
+              <li nz-menu-item class="noti"><span class="icon" nz-icon nzType="question-circle"
+                  nzTheme="outline"></span>Notification 4</li>
+              <li nz-menu-item class="noti"><span class="icon" nz-icon nzType="question-circle"
+                  nzTheme="outline"></span>Notification 5</li>
+              <li nz-menu-item class="noti"><span class="icon" nz-icon nzType="question-circle"
+                  nzTheme="outline"></span>Notification 6</li>
+              <li nz-menu-divider></li>
+              <li nz-menu-item nzDisabled class="noti"><span class="icon" nz-icon nzType="check-circle"
+                  nzTheme="outline"></span>disabled menu item</li>
+            </ul>
+          </nz-dropdown-menu>
+          <!-- Nguoi dung -->
+          <li nz-menu-item nz-dropdown nzTrigger="click" [nzDropdownMenu]="menuprofile">
+            <div class="flex justify-center">
+              <span>{{user?.data?.fullname}}</span>
+              <nz-avatar nzIcon="user" [nzSrc]="imgAvatarUrl"></nz-avatar>
+
+            </div>
+          </li>
+          <nz-dropdown-menu #menuprofile="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item (click)="handleClickOpenModal()"><span nz-icon class="icon" nzType="info-circle"
+                  nzTheme="outline"></span>Profile</li>
+              <li nz-menu-item><span nz-icon class="icon" nzType="setting" nzTheme="outline"></span>Setting</li>
+              <li nz-menu-item><s pan nz-icon class="icon" nzType="like" nzTheme="outline"></s>Help</li>
+              <li nz-menu-item (click)="handleClickLogout()"><span nz-icon class="icon" nzType="logout"
+                  nzTheme="outline"></span>Logout</li>
+
+            </ul>
+          </nz-dropdown-menu>
+        </ul>
+      </div>
+    </nz-header>
+    <app-profile-user [isOpen]="openModal" (closeModal)="handleClickCloseModal()"></app-profile-user>
+  </nz-layout>
+</nz-affix>

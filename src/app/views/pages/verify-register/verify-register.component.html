@@ -1,0 +1,56 @@
+<div class="grid place-content-center min-h-full">
+    <div class="mb-10">
+
+        <div class="text-center mb-5 flex flex-col justify-between items-center">
+            <div class="mb-5">
+                <svg width="30" height="30" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.464294" width="24" height="24" rx="4.8" fill="#1890FF" />
+                    <path d="M14.8643 3.6001H20.8643V9.6001H14.8643V3.6001Z" fill="white" />
+                    <path d="M10.0643 9.6001H14.8643V14.4001H10.0643V9.6001Z" fill="white" />
+                    <path d="M4.06427 13.2001H11.2643V20.4001H4.06427V13.2001Z" fill="white" />
+                </svg>
+
+            </div>
+            <div>
+                <h2 nz-typography>Nhập mã OTP</h2>
+
+            </div>
+            <div>
+                <span nz-typography style="color: rgba(0, 0, 0, 0.65);">
+                    Mã OTP đã gửi mail của bạn vui lòng nhập để xác nhận đăng kí
+                </span>
+
+            </div>
+        </div>
+        <div>
+            <input class="text-center" nz-input placeholder="Mã OTP" [(ngModel)]="value" type="number"
+                onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'" />
+            <button nz-button nzType="primary" class="w-full mt-3" (click)="sendOtp()">Xác nhận</button>
+            <div class="flex mt-3 justify-between items-center">
+                <div class="flex">
+                    <div style="color: rgba(0, 0, 0, 0.65);">
+                        Thời gian hiệu lực của mã OTP :
+
+                    </div>
+                    <div class="ml-1">
+                        <nz-countdown
+                            [nzValueStyle]="{ fontSize: '15px', lineHeight: '15px',color: 'rgba(0, 0, 0, 0.65)' }"
+                            [nzValue]="deadline" (nzCountdownFinish)="onCountdownFinish()"></nz-countdown>
+
+                    </div>
+
+                </div>
+                <div class="">
+                    @if (isLoading) {
+                    <nz-spin nzSimple></nz-spin>
+                    }@else {
+
+                    <a nz-button nzType="link" [disabled]="isDisabled" (click)="resetCountdown()">Gửi lại mã</a>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

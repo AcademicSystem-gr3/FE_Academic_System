@@ -1,0 +1,70 @@
+<div class="min-h-full flex justify-center items-center">
+    <div class="w-full sm:w-[300px] sm:p-4 lg:w-[380px] md:w-[340px] mx-auto">
+        <div class="text-center mb-5 flex flex-col justify-between items-center">
+            <div class="mb-5">
+                <svg width="30" height="30" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.464294" width="24" height="24" rx="4.8" fill="#1890FF" />
+                    <path d="M14.8643 3.6001H20.8643V9.6001H14.8643V3.6001Z" fill="white" />
+                    <path d="M10.0643 9.6001H14.8643V14.4001H10.0643V9.6001Z" fill="white" />
+                    <path d="M4.06427 13.2001H11.2643V20.4001H4.06427V13.2001Z" fill="white" />
+                </svg>
+
+            </div>
+            <div>
+                <h2 nz-typography>Hệ thống A3S</h2>
+
+            </div>
+            <div>
+                <span nz-typography style="color: rgba(0, 0, 0, 0.65);">
+                    Chào mừng bạn trở lại A3S! Vui lòng nhập thông tin chi tiết của bạn bên dưới để đăng nhập.
+                </span>
+
+            </div>
+        </div>
+        <form nz-form [nzLayout]="'vertical'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Vui lòng nhập tài khoản!">
+                    <nz-input-group nzPrefixIcon="user">
+                        <input formControlName="userName" nz-input placeholder="Tài khoản" class="w-full" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Vui lòng nhập mật khẩu!">
+                    <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate">
+                        <input formControlName="password" [type]="passwordVisible ? 'text' : 'password'" nz-input
+                            type="password" placeholder="Mật khẩu" class="w-full" [(ngModel)]="password" />
+                    </nz-input-group>
+                    <ng-template #suffixTemplate>
+                        @if (password) {
+                        <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                            (click)="passwordVisible = !passwordVisible"></span>
+
+                        }
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                    <a class="float-right mb-2" style="margin-top: -0.5rem;" routerLink="/forgot-password"
+                        nz-typography>Quên mật khẩu ?</a>
+
+
+                    <button nz-button nzType="primary" class="w-full" [disabled]="!validateForm.valid">Đăng
+                        nhập</button>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+        <div>
+            <asl-google-signin-button #googleButtonContainer class="w-full" type="standard" size="medium" [width]="349"
+                text="signin_with"></asl-google-signin-button>
+        </div>
+        <div class="text-center" style="color:rgba(0, 0, 0, 0.65);">
+            <span>
+                Bạn chưa có tài khoản? <a routerLink="/register">Đăng ký ngay</a>
+
+            </span>
+        </div>
+    </div>
+
+</div>

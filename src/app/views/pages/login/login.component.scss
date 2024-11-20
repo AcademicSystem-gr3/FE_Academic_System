@@ -1,0 +1,8 @@
+.google-button-container {
+    width: 349px;
+    max-width: 100%;
+}
+
+:host ::ng-deep .google-button-container .asl-google-signin-button {
+    width: 100% !important;
+}
