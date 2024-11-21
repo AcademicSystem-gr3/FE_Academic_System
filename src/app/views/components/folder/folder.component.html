@@ -1,0 +1,112 @@
+<div (contextmenu)="onRightClick($event)" class="min-h-full">
+    <nz-divider></nz-divider>
+    <div class="flex gap-3 flex-wrap">
+        @for (item of listFolder;let i = $index; track $index) {
+
+        <div class="max-w-[90px] w-full cursor-pointer group hover:bg-cyan-50"
+            (contextmenu)="onRightClickItem($event,i)">
+            <div class="text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    width="50" height="50" x="0" y="0" viewBox="0 0 497 497" style="enable-background:new 0 0 512 512"
+                    xml:space="preserve"
+                    class="transition-all duration-300 transform group-hover:scale-105 group-active:scale-95">
+                    <g>
+                        <path fill="#ffa436" d="M467 82.5h-30v90h60v-60c0-16.57-13.43-30-30-30z" opacity="1"></path>
+                        <path fill="#ffbc2b"
+                            d="m467 112.5-90 120H0v-180c0-16.57 13.43-30 30-30h146.07c7.96 0 15.59 3.16 21.22 8.79L248.5 82.5H437c16.57 0 30 13.43 30 30z"
+                            opacity="1"></path>
+                        <path fill="#8ae7ff" d="m437 112.5-60 75h90v-75z" opacity="1"></path>
+                        <path fill="#bdf2ff" d="M437 112.5v150l-407-120v-30z" opacity="1"></path>
+                        <path fill="#ffffff" d="M30 142.5h290.93v90H30z" opacity="1"></path>
+                        <path fill="#ffbc2b"
+                            d="m467 142.5-30 30v302h30c16.57 0 30-13.43 30-30v-272c0-16.57-13.43-30-30-30z" opacity="1">
+                        </path>
+                        <path fill="#ffcf66"
+                            d="M467 142.5v302c0 16.57-13.43 30-30 30H30c-16.57 0-30-13.43-30-30v-212c0-16.57 13.43-30 30-30h218.5l51.21-51.21a30.003 30.003 0 0 1 21.22-8.79z"
+                            opacity="1" class=""></path>
+                    </g>
+                </svg>
+            </div>
+            <div
+                class="text-center truncate transition-colors duration-300 group-hover:text-blue-500 group-active:text-blue-700">
+                <div *ngIf="editingIndex!=i">
+                    {{ item.folderName }}
+                </div>
+
+                <!-- Hiển thị input khi đang chỉnh sửa -->
+                <div *ngIf="editingIndex === i" class="w-fit">
+                    <input class="border-none outline-none" [(ngModel)]="item.folderName" (blur)="saveFileName(i)"
+                        (keydown.enter)="saveFileName(i)" (keydown.esc)="cancelEditing(i)" />
+                </div>
+            </div>
+        </div>
+        }
+
+
+
+
+    </div>
+</div>
+
+<nz-drawer [nzSize]="'default'" [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="Thông tin tệp"
+    (nzOnClose)="close()">
+    <ng-container *nzDrawerContent>
+        <nz-descriptions nzBordered>
+            <nz-descriptions-item nzTitle="Tên tệp" nzSpan="3">Cloud Database</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Kích cỡ" nzSpan="3">Prepaid</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Ngày tạo" nzSpan="3">YES</nz-descriptions-item>
+
+        </nz-descriptions>
+
+    </ng-container>
+</nz-drawer>
+
+<nz-modal [(nzVisible)]="isVisibleModalCreateFolder" nzTitle="Đặt tên tệp" (nzOnCancel)="handleCancelCreateFolder()"
+    (nzOnOk)="handleOkCreateFolder()" [nzCancelText]="'Huỷ'" [nzOkText]="'Tạo'">
+    <ng-container *nzModalContent>
+        <input nz-input placeholder="Nhập tên tệp" [(ngModel)]="valueFolderName" />
+        <div class="example-input mt-3">
+            <input placeholder="Danh mục" nz-input [(ngModel)]="inputValue" [nzAutocomplete]="auto" />
+            <nz-autocomplete #auto [compareWith]="compareFun">
+                @for (option of options; track $index) {
+                <nz-auto-option [nzValue]="option" [nzLabel]="option.label">
+                    {{ option.label }}
+                </nz-auto-option>
+                }
+            </nz-autocomplete>
+        </div>
+    </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isVisibleModalUploadFolder" nzTitle="Đặt tên tệp" (nzOnCancel)="handleCancelUploadFolder()"
+    (nzOnOk)="handleOkUploadFolder()" [nzCancelText]="'Huỷ'" [nzOkText]="'Tạo'">
+    <ng-container *nzModalContent>
+        <nz-upload nzType="drag" [nzMultiple]="true" nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            (nzChange)="handleChange($event)">
+            <p class="ant-upload-drag-icon">
+                <span nz-icon nzType="inbox"></span>
+            </p>
+            <p class="ant-upload-text">Nhấp hoặc kéo tệp vào khu vực này để tải lên</p>
+            <p class="ant-upload-hint">
+                Hỗ trợ tải lên một lần hoặc hàng loạt. Nghiêm cấm tải lên dữ liệu công ty hoặc các tập tin ban nhạc khác
+            </p>
+        </nz-upload>
+    </ng-container>
+</nz-modal>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+        <li nz-menu-item (click)="onCreateFolder()">Tạo thư mục</li>
+        <li nz-menu-item (click)="onUpload()">Tải file lên</li>
+    </ul>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #menuItem="nzDropdownMenu">
+    <ul nz-menu>
+        <li nz-menu-item (click)="onViewDetail()">Chi tiết</li>
+        <li nz-menu-item (click)="onRename()">Đổi tên</li>
+        <li nz-menu-item (click)="onDownload()">Tải xuống</li>
+        <li nz-menu-item (click)="onShare()">Chia sẻ</li>
+        <li nz-menu-item (click)="onDelete()">Xóa thư mục</li>
+    </ul>
+</nz-dropdown-menu>
