@@ -1,0 +1,73 @@
+@if(listClass && listClass.length > 0){
+<button nz-button nzType="primary" class="w-full" (click)="onClick()">Tạo lớp</button>
+<nz-divider></nz-divider>
+<div class="h-svh"> <!-- hoặc một height cụ thể nào đó -->
+    <div class="h-full max-w-full mt-5 rounded flex flex-wrap gap-2">
+        @for (item of listClass; track $index) {
+        <div [routerLink]="['/teacher/block', blockName, 'class', item.id]"
+            class="w-[298.6px] h-[295.6px] rounded border border-solid border-gray-300 bg-white cursor-pointer hover:shadow-md transform transition-transform duration-300 hover:-translate-y-1">
+            <div class="w-full h-full p-3 rounded border border-solid border-gray-300 bg-white"
+                [style]="{'background-image': 'url(' + item.imageThemes + ')', 'background-size': 'cover', 'background-position': 'top', 'background-repeat': 'no-repeat', 'height': '107px'}">
+                <div>
+                    <div class="text-white text-4xl font-bold">{{item.className}}</div>
+                    <span class="text-white">{{item.userName}}</span>
+                </div>
+                <div class="float-right">
+                    @if (item.avatar) {
+                    <nz-avatar [nzSize]=60 [nzSrc]="item.avatar"></nz-avatar>
+                    }@else {
+                    <nz-avatar [nzSize]=60 nzText="U" [nzSrc]="item.user.avatar"
+                        style="color:#f56a00; background-color:#fde3cf;"></nz-avatar>
+                    }
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+
+</div>
+<nz-affix [nzOffsetBottom]="nzOffsetBottom" (click)="onClick()" class="float-right cursor-pointer">
+    <div class="w-[50px] h-[50px] bg-slate-200 rounded-full flex justify-center items-center" nz-tooltip
+        nzTooltipTitle="Tạo lớp" nzTooltipPlacement="top">
+        <span nz-icon nzType="plus" nzTheme="outline" class="text-xl"></span>
+    </div>
+</nz-affix>
+<!-- <ul>
+    @for (item of listClass; track $index) {
+    <li>{{item.name}}</li>
+    }
+</ul> -->
+}@else {
+<div class="w-full h-full flex justify-center items-center">
+    <nz-empty nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+        [nzNotFoundContent]="contentTpl" [nzNotFoundFooter]="footerTpl" class="">
+        <ng-template #contentTpl>
+            <span>
+                Hiện chưa có lớp nào tại
+                <a href="#">khối {{blockName}}</a>
+            </span>
+        </ng-template>
+        <ng-template #footerTpl>
+            <button nz-button nzType="primary" (click)="onClick()">Tạo ngay</button>
+        </ng-template>
+    </nz-empty>
+</div>
+
+}
+<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+    class="overflow-scroll">
+    <ng-container *nzModalContent>
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <nz-form-item>
+
+                <nz-form-label [nzXs]="24" [nzSm]="4" nzRequired> Tên lớp </nz-form-label>
+
+                <nz-form-control [nzXs]="24" [nzSm]="20"
+                    [nzErrorTip]="validateForm.get('name')?.hasError('required') ? 'Vui lòng không để trống!' : validateForm.get('name')?.hasError('pattern') ? 'Tên lớp không hợp lệ!' : ''">
+                    <input class="passenger-input" nz-input placeholder="tên lớp" formControlName="name" required />
+                </nz-form-control>
+            </nz-form-item>
+
+        </form>
+    </ng-container>
+</nz-modal>
