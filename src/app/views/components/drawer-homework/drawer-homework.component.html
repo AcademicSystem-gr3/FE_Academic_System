@@ -1,0 +1,57 @@
+<nz-drawer [nzClosable]="false" [nzVisible]="visibleDrawer" nzPlacement="right" [nzMask]="true" nzClosable="true"
+    nzTitle="{{homework?.title}}" (nzOnClose)="closeDrawer.emit()">
+    <ng-container *nzDrawerContent>
+        <div class="mb-1">
+            Thời hạn: {{deadLine}}
+
+        </div>
+        <nz-card>
+            <div class="flex gap-2 items-center">
+                <div>
+                    <span class="text-2xl" nz-icon nzType="file" nzTheme="outline"></span>
+
+                </div>
+                <div>
+                    {{homework?.fileName}}
+
+                </div>
+
+            </div>
+        </nz-card>
+        <div class="flex gap-2 items-center justify-end mt-2">
+            <div>
+                <button (click)="isVisibleModalAssignment = true" nz-button nzType="default" class="w-full">Xem tiến
+                    độ</button>
+            </div>
+            <div>
+                <button nz-button nzType="primary" class="w-full" (click)="downloadFile(homework?.fileName!)">Tải
+                    xuống</button>
+                <a #download></a>
+            </div>
+        </div>
+    </ng-container>
+    <nz-modal [(nzVisible)]="isVisibleModalAssignment" nzTitle="Tải bài tập lên"
+        (nzOnCancel)="handleCancelModalAssignment()" (nzOnOk)="handleOkModalAssignment()" class="overflow-scroll">
+        <ng-container *nzModalContent>
+            <div>
+                <cdk-virtual-scroll-viewport itemSize="73" class="demo-infinite-container">
+                    <nz-list>
+                        <nz-list-item *cdkVirtualFor="let item of ds">
+                            @if (item) {
+                            <nz-list-item-meta
+                                nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                                [nzDescription]="item.email">
+                                <nz-list-item-meta-title>
+                                    <a href="https://ng.ant.design">{{ item.name.last }}</a>
+                                </nz-list-item-meta-title>
+                            </nz-list-item-meta>
+                            } @else {
+                            <nz-skeleton [nzAvatar]="true" [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+                            }
+                        </nz-list-item>
+                    </nz-list>
+                </cdk-virtual-scroll-viewport>
+            </div>
+        </ng-container>
+    </nz-modal>
+</nz-drawer>
