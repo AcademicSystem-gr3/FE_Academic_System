@@ -1,0 +1,21 @@
+<div class="relative group w-6 h-6" nz-dropdown [nzDropdownMenu]="menuBlog">
+    <span nz-icon nzType="more" nzTheme="outline"
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm z-10 cursor-pointer">
+    </span>
+    <div class="absolute top-0 left-0 hidden group-hover:block w-full h-full bg-gray-400 opacity-20 rounded-full">
+    </div>
+</div>
+<nz-dropdown-menu #menuBlog="nzDropdownMenu">
+    <ul nz-menu>
+
+        <li nz-menu-item (click)="onEditBlog()"><span nz-icon nzType="edit" nzTheme="outline" class="pr-2"></span>Sửa
+            bài viết</li>
+
+        <li nz-menu-item nzDanger nz-popconfirm nzPopconfirmTitle="Bạn có chắc chắn muốn xóa bài viết này?"
+            nzOkText="Xóa" nzCancelText="Hủy" (nzOnConfirm)="onDeleteBlog()" (nzOnCancel)="cancel()"
+            [nzPopconfirmArrowPointAtCenter]="false">
+            <span nz-icon nzType="delete" nzTheme="outline" class="pr-2"></span>
+            Xóa bài viết
+        </li>
+    </ul>
+</nz-dropdown-menu>
