@@ -1,0 +1,143 @@
+<nz-modal [(nzVisible)]="isOpen" nzTitle="Cập nhật thông tin" (nzOnCancel)="handleCancel()"
+    (nzOnOk)="submitCurrentTabForm()" [nzOkText]="'Cập nhật'" [nzCancelText]="'Huỷ'" nzWidth="700px">
+    <ng-container *nzModalContent>
+        <nz-tabset (nzSelectedIndexChange)="onTabChange($event)">
+            <nz-tab nzTitle="Thông tin người dùng">
+                <div class="flex justify-center items-center gap-20">
+                    <div>
+
+                        <form nz-form class="w-[146%] " [formGroup]="validateForm" (ngSubmit)="submitForm()">
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
+                                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập nhập Email">
+                                    <input nz-input formControlName="email" id="email" placeholder="Nhập Email" />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="nickname" nzRequired
+                                    nzTooltipTitle="Bạn muốn người khác gọi bạn là gì?">
+                                    <span>Họ tên</span>
+                                </nz-form-label>
+                                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập tên của bạn!">
+                                    <input nz-input id="nickname" formControlName="nickname"
+                                        placeholder="Nhập tên của bạn" />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired>Điện
+                                    Thoại</nz-form-label>
+                                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập số điện thoại!">
+                                    <input nz-input id="phone" formControlName="phone" placeholder="Nhập số điện " />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="province" nzRequired>Tỉnh</nz-form-label>
+                                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng chọn tỉnh thành!">
+                                    <nz-select formControlName="province" [nzFilterOption]="filterOption" nzShowSearch
+                                        [nzServerSearch]="false" nzPlaceHolder="Chọn tỉnh thành"
+                                        [nzLoading]="isLoadingProvince">
+                                        <nz-option *ngFor="let o of provinceList" [nzValue]="o.id"
+                                            [nzLabel]="o.name"></nz-option>
+                                        <!-- <nz-option [nzValue]="citySelectedFetch?.id"
+                                            [nzLabel]="citySelectedFetch?.name!"></nz-option> -->
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <!-- Quận/Huyện -->
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="district"
+                                    nzRequired>Quận/Huyện</nz-form-label>
+                                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng chọn quận/huyện!">
+                                    <nz-select formControlName="district" nzShowSearch nzPlaceHolder="Chọn quận/huyện"
+                                        [nzFilterOption]="filterOption" nzShowSearch [nzServerSearch]="false"
+                                        [nzDisabled]="!provinceSelected" [nzLoading]="isLoadingDistrict">
+                                        <nz-option *ngFor="let o of districtList" [nzValue]="o.id"
+                                            [nzLabel]="o.name"></nz-option>
+                                        <!-- <nz-option [nzValue]="districtSelectedFetch?.id"
+                                            [nzLabel]="citySelectedFetch?.name!"></nz-option> -->
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <!-- Xã/Phường -->
+                            <nz-form-item>
+                                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="commune"
+                                    nzRequired>Xã/Phường</nz-form-label>
+                                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng chọn xã/phường!">
+                                    <nz-select formControlName="commune" nzShowSearch nzPlaceHolder="Chọn xã/phường"
+                                        [nzFilterOption]="filterOption" nzShowSearch [nzServerSearch]="false"
+                                        [nzDisabled]="!districtSelected" [nzLoading]="isLoadingCommune">
+                                        <nz-option *ngFor="let o of communeList" [nzValue]="o.id"
+                                            [nzLabel]="o.name"></nz-option>
+                                        <!-- <nz-option [nzValue]="citySelectedFetch?.id"
+                                            [nzLabel]="citySelectedFetch?.name!"></nz-option> -->
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </form>
+                    </div>
+                    <div>
+                        <div class="flex flex-col items-center ml-4 gap-3">
+                            <div>
+                                <img nz-image width="200px" height="200px" nzPreview class="rounded-full object-cover"
+                                    [nzSrc]="imgAvatarUrl" alt="" />
+                            </div>
+                            <div>
+                                <nz-upload [nzHeaders]="{ authorization: 'authorization-text' }"
+                                    [nzCustomRequest]="dummyRequest" (nzChange)="handleChange($event)"
+                                    [nzShowUploadList]="false">
+                                    <button nz-button>
+                                        <span nz-icon nzType="upload"></span>
+                                        Cập nhật hình đại diện
+                                    </button>
+                                </nz-upload>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="Mật khẩu">
+                <form nz-form class="w-full " [formGroup]="validateFormPassword" (ngSubmit)="submitFormPassword()"
+                    [nzLayout]="'vertical'">
+
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Mật khẩu cũ</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập mật khẩu!">
+                            <input nz-input type="password" id="password" formControlName="oldPassword"
+                                placeholder="Nhập mật khẩu" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Mật khẩu mới</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập mật khẩu!">
+                            <input nz-input type="password" id="password" formControlName="password"
+                                (ngModelChange)="updateConfirmValidator()" placeholder="Nhập mật khẩu" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>Xác nhận mật
+                            khẩu</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="errorTpl">
+                            <input nz-input type="password" formControlName="checkPassword" id="checkPassword"
+                                placeholder="Nhập lại mật khẩu" />
+                            <ng-template #errorTpl let-control>
+                                @if (control.errors?.['required']) {
+                                Vui lòng xác nhận mật khẩu của bạn!
+                                }
+                                @if (control.errors?.['confirm']) {
+                                Hai mật khẩu bạn nhập không nhất quán
+                                }
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </nz-tab>
+            <nz-tabset nzTitle="Tab 3">Content of Tab Pane 3</nz-tabset>
+        </nz-tabset>
+
+    </ng-container>
+</nz-modal>

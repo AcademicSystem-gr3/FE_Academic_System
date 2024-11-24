@@ -1,0 +1,48 @@
+<div>
+    <div class="border border-solid w-[300px] min-h-[300px] rounded p-4  lg:w-full lg:block sm:hidden hidden"
+        style="border-color: rgb(214 211 211);">
+        <div>
+            <div class="text-center text-red-400 font-bold">TỔNG SỐ CÂU HỎI: {{listQuestion.length}}</div>
+        </div>
+        <nz-divider></nz-divider>
+        <nz-progress [nzPercent]="progress$ | async" nzStatus="active"></nz-progress>
+        @if (viewResult === false) {
+        <nz-countdown (nzCountdownFinish)="onCountdownFinish()" [nzValue]="deadline!"
+            [nzTitle]="'Thời gian còn lại   :'"
+            [nzValueStyle]="{ fontSize: '15px', lineHeight: '15px',color: 'rgba(0, 0, 0, 0.65)' }"></nz-countdown>
+
+        }
+
+        <nz-divider></nz-divider>
+        <div class="flex justify-center flex-col gap-2 mx-auto">
+            <div class="flex flex-wrap  gap-2 justify-start text-center flex-container">
+                @if(viewResult === false){
+                @for (item of listQuestion; track $index;let i = $index) {
+                <button [ngClass]="{'ant-btn-custom custom-button': (isAnswerSelected(item) | async)}" nz-button
+                    nzType="default" (click)="onSelectQuestion(item,i+1)">{{i+1}}</button>
+                }
+
+                }@else {
+                @for (item of listQuestion; track $index;let i = $index) {
+                <button [nzDanger]="isWrongAnswer(item)" [ngClass]="{
+                    'ant-btn-custom custom-button': (isCorrectAnswer(item))
+
+                }" nz-button nzType="default" (click)="onSelectQuestion(item,i+1)">{{i+1}}</button>
+                }
+                }
+
+            </div>
+
+        </div>
+
+        <nz-divider></nz-divider>
+        @if (viewResult === false) {
+
+        <button nz-button nzType="primary" class="w-full" (click)="handleSubmitQuiz()">Nộp bài</button>
+        }@else {
+        <button nz-button nzType="primary" class="w-full" (click)="onClickBackToList()">Quay lại mục lục</button>
+        }
+
+    </div>
+
+</div>

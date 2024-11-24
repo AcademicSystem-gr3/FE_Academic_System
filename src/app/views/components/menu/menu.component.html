@@ -1,0 +1,80 @@
+<div style="height: 100%;">
+  <nz-layout class="min-h-full">
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" nzTheme="light">
+      <span class="trigger" nz-icon [nzType]="isCollapsed ? 'left-circle' : 'right-circle'"
+        (click)="isCollapsed = !isCollapsed"></span>
+      <ul nz-menu nzMode="inline">
+        <li nz-menu-item routerLink="/teacher/home" routerLinkActive="active" [nzMatchRouter]="true"
+          [nzMatchRouterExact]="true
+        ">
+          <span nz-icon nzType="home"></span>
+          <span>Trang chủ</span>
+        </li>
+        <li nz-submenu nzTheme="light" nzTitle="Lớp học" nzIcon="book">
+          <ul>
+            <ul>
+              <li nz-submenu nzTitle="Lớp 12" (nzOpenChange)="navigateTo('/teacher/block/12')">
+                <ul>
+                  @for (item of classList$ | async ; track $index) {
+                  @if (item.blockId == '0195ddd5-48c9-40e0-9ca8-699d1eb5f93a') {
+                  <li nz-menu-item routerLinkActive="active"
+                    [routerLink]="['/teacher/block', 12, 'class', item.classId]" [nzMatchRouter]="true">Lớp
+                    {{item.name}}</li>
+                  }
+                  }
+                </ul>
+              </li>
+            </ul>
+            <ul>
+              <li nz-submenu nzTitle="Lớp 11" (nzOpenChange)="navigateTo('/teacher/block/11')">
+                <ul>
+                  @for (item of classList$ | async ; track $index) {
+                  @if (item.blockId == '025bef52-0a34-4ca7-9a35-b8dd995457d6') {
+                  <li nz-menu-item routerLinkActive="active"
+                    [routerLink]="['/teacher/block', 11, 'class', item.classId]" [nzMatchRouter]="true">Lớp
+                    {{item.name}}</li>
+                  }
+                  }
+                </ul>
+              </li>
+            </ul>
+            <ul>
+              <li nz-submenu nzTitle="Lớp 10" (nzOpenChange)="navigateTo('/teacher/block/10')">
+                <ul>
+                  @for (item of classList$ | async ; track $index) {
+                  @if (item.blockId == '5dcb41d1-726c-4068-9bf1-af314eef2fe1') {
+                  <li nz-menu-item routerLinkActive="active"
+                    [routerLink]="['/teacher/block', 12, 'class', item.classId]" [nzMatchRouter]="true">Lớp
+                    {{item.name}}</li>
+                  }
+                  }
+                </ul>
+              </li>
+            </ul>
+          </ul>
+        </li>
+        <li nz-menu-item routerLink="/teacher/folder" routerLinkActive="active" [nzMatchRouter]="true">
+          <span nz-icon nzType="folder"></span>
+          <span>Thư mục</span>
+        </li>
+        <li nz-menu-item routerLink="/teacher/works" routerLinkActive="active" [nzMatchRouter]="true">
+          <span nz-icon nzType="carry-out"></span>
+          <span>Công việc</span>
+        </li>
+        <li nz-menu-item>
+          <span nz-icon nzType="setting"></span>
+          <span>Cài đặt</span>
+        </li>
+        <li nz-menu-item>
+          <span nz-icon nzType="question-circle"></span>
+          <span>Hỗ trợ</span>
+        </li>
+      </ul>
+    </nz-sider>
+    <nz-content class="min-h-full pb-14">
+      <app-breadcrumb></app-breadcrumb>
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+
+</div>

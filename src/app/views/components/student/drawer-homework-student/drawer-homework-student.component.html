@@ -1,0 +1,86 @@
+<nz-drawer [nzWidth]="450" [nzClosable]="false" [nzVisible]="visibleDrawer" nzPlacement="right" [nzMask]="true"
+    nzClosable="true" nzTitle="{{homework?.title}}" (nzOnClose)="handleCloseDrawer()">
+    <ng-container *nzDrawerContent>
+        <div class="mb-1">
+            Thời hạn: {{deadLine}}
+
+        </div>
+        <nz-card>
+            <div class="flex items-center">
+                <div class="flex-1 flex gap-1">
+                    <div>
+                        <span class="text-2xl" nz-icon nzType="file" nzTheme="outline"></span>
+
+                    </div>
+                    <div>
+                        {{homework?.fileName}}
+
+                    </div>
+
+                </div>
+                <div class="cursor-pointer" (click)="downloadFile(homework?.fileName!)">
+                    <span class="text-xl" nz-icon nzType="download" nzTheme="outline"></span>
+                </div>
+            </div>
+        </nz-card>
+        @if (homeworkSubmission != null) {
+        <div>
+            <div class="mb-1">
+                Bài đã nộp:
+
+            </div>
+            <nz-card>
+                <div class="flex items-center">
+                    <div class="flex-1 flex gap-1">
+                        <div>
+                            <span class="text-2xl" nz-icon nzType="file" nzTheme="outline"></span>
+
+                        </div>
+                        <div>
+                            {{homeworkSubmission.submissionName}}
+
+                        </div>
+
+                    </div>
+                    <div class="cursor-pointer" (click)="downloadSubmissionFile(homeworkSubmission.submissionName)">
+                        <span class="text-xl" nz-icon nzType="download" nzTheme="outline"></span>
+                    </div>
+                </div>
+            </nz-card>
+        </div>
+
+        }
+
+        @if(isVisibleUpload) {
+        <div class="mt-2">
+            <nz-upload nzType="drag" [nzMultiple]="false" [nzCustomRequest]="dummyRequest"
+                (nzChange)="handleChange($event)">
+                <p class="ant-upload-drag-icon">
+                    <span nz-icon nzType="inbox"></span>
+                </p>
+                <p class="ant-upload-text">Click or drag file to this area to upload</p>
+                <p class="ant-upload-hint">
+                    Support for a single or bulk upload. Strictly prohibit from uploading company data or other band
+                    files
+                </p>
+            </nz-upload>
+            @if (isExpired) {
+            <span nz-typography nzType="danger">Bài tập đã quá hạn nộp bài</span>
+
+            }
+        </div>
+
+        }
+        <div class="flex gap-2 items-center justify-end mt-2">
+            <div>
+                <button (click)="handleOpenUpload()" nz-button nzType="default" class="w-full">{{isVisibleUpload ? 'Hủy'
+                    : 'Tải lên'}}</button>
+            </div>
+            <div>
+                <button nz-button nzType="primary" class="w-full" [disabled]="fileUpload == null"
+                    (click)="handleSubmitHomework()">Nộp bài</button>
+                <a #download></a>
+            </div>
+        </div>
+    </ng-container>
+</nz-drawer>

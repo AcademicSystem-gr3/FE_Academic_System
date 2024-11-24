@@ -1,0 +1,26 @@
+[nz-radio] {
+    display: block;
+    height: 32px;
+    line-height: normal;
+}
+
+
+.custom-radio {
+    @apply flex items-start py-3;
+}
+
+.custom-radio ::ng-deep .ant-radio {
+    // @apply mt-1.5;
+}
+
+.custom-radio ::ng-deep .ant-radio+span {
+    @apply flex-grow pl-2;
+}
+
+.text-answer-correct {
+    color: rgb(60, 255, 128);
+}
+
+.text-answer-wrong {
+    color: rgb(255, 60, 60);
+}

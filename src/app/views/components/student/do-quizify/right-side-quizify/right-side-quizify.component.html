@@ -1,0 +1,50 @@
+<div class="border border-solid rounded p-[0.9rem] w-full  min-h-full" style="border-color: rgb(214 211 211);">
+    <div>
+        <div class="float-left text-blue-400 font-bold">CÂU HỎI {{questionNumber}}</div>
+    </div>
+    <nz-divider></nz-divider>
+    @if(question){
+    <div>
+        <span nz-typography class="text-justify break-words">{{question.questionDetail}}</span>
+    </div>
+    <nz-divider></nz-divider>
+    <div>
+        @if (viewResult == false) {
+        <nz-radio-group [(ngModel)]="radioValue" (ngModelChange)="onAnswerSelect(question.questionId,$event)"
+            class="flex flex-col gap-64 sm:gap-20 lg:gap-8">
+
+            @if (listAnswer.length > 0) {
+
+
+            @for (item of listAnswer; track $index) {
+            <label nz-radio [nzValue]="item.answerId" class="custom-radio block text-justify break-words">
+                {{item.answerDetail}}
+            </label>
+            }
+
+            }
+        </nz-radio-group>
+
+        }@else {
+        <nz-radio-group [(ngModel)]="radioValue" class="flex flex-col gap-64 sm:gap-20 lg:gap-8">
+
+            @if (listAnswer.length > 0) {
+            @for (item of listAnswer; track $index) {
+            <label nz-radio nzDisabled [nzValue]="item.answerId" class="custom-radio block text-justify break-words">
+                <span [ngClass]="{
+                    'text-answer-correct': checkUserAnswerCorrect(item) || (!checkUserAnswerIncorrect(item) && checkCorrectAnswer(item)),
+                    'text-answer-wrong': checkUserAnswerIncorrect(item)
+                }">
+                    {{item.answerDetail}}
+
+                </span>
+            </label>
+
+            }
+            }
+        </nz-radio-group>
+        }
+    </div>
+
+    }
+</div>

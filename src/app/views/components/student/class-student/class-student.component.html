@@ -1,0 +1,42 @@
+<nz-divider></nz-divider>
+<div class="h-svh"> <!-- hoặc một height cụ thể nào đó -->
+    <div class="h-full max-w-full mt-5 rounded flex flex-wrap gap-2">
+        @for (item of listSubject; track $index) {
+        <div [routerLink]="['/student/subject', createSlug(item.subject.subjectName), item.classId]"
+            class="w-[298.6px] h-[295.6px] rounded border border-solid border-gray-300 bg-white cursor-pointer hover:shadow-md transform transition-transform duration-300 hover:-translate-y-1">
+            <div class="w-full h-full p-3 rounded border border-solid border-gray-300 bg-white"
+                [style]="{'background-image': 'url(' + item.imgTheme + ')', 'background-size': 'cover', 'background-position': 'top', 'background-repeat': 'no-repeat', 'height': '107px'}">
+                <div>
+                    <div class="text-white text-4xl font-bold">{{item.subject.subjectName}}</div>
+                    <span class="text-white">{{item.teacherName}}</span>
+                </div>
+                <div class="float-right">
+                    <nz-avatar [nzSize]=60 [nzSrc]="item.teacherAvatar"></nz-avatar>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+
+</div>
+
+<nz-affix [nzOffsetBottom]="nzOffsetBottom" (click)="onClickAffix()" class="float-right cursor-pointer">
+    <div class="w-[50px] h-[50px] bg-slate-200 rounded-full flex justify-center items-center" nz-tooltip
+        nzTooltipTitle="Tham gia lớp" nzTooltipPlacement="top">
+        <span nz-icon nzType="plus" nzTheme="outline" class="text-xl"></span>
+    </div>
+</nz-affix>
+
+<nz-modal [(nzVisible)]="isModalVisible" nzTitle="Thông báo" (nzOnCancel)="closeModal()" (nzOnOk)="closeModal()"
+    [nzOkText]="'Tham gia'" [nzCancelText]="'Huỷ'">
+    <ng-container *nzModalContent>
+
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <nz-form-item>
+                <nz-form-control [nzXs]="24" [nzSm]="24" [nzErrorTip]="'Vui lòng không để trống'">
+                    <input class="passenger-input" nz-input placeholder="Nhập mã lớp" formControlName="name" required />
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-container>
+</nz-modal>
