@@ -1,0 +1,19 @@
+.ant-divider-horizontal {
+    margin: 12px 0 !important;
+}
+
+.ant-btn-custom {
+    color: #40a9ff;
+    border-color: #40a9ff;
+}
+
+.custom-button {
+    width: 39.15px !important;
+    height: 32px !important;
+    display: flex;
+    justify-content: center;
+}
+
+.flex-container>*:nth-last-child(-n+6) {
+    align-self: flex-start !important;
+}

@@ -1,0 +1,59 @@
+<div style="height: 100%;">
+  <nz-layout class="min-h-full">
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" nzTheme="light">
+      <span class="trigger" nz-icon [nzType]="isCollapsed ? 'left-circle' : 'right-circle'"
+        (click)="isCollapsed = !isCollapsed"></span>
+      <ul nz-menu nzMode="inline">
+        <li nz-menu-item routerLink="/teacher/home" routerLinkActive="active" [nzMatchRouter]="true"
+          [nzMatchRouterExact]="true
+        ">
+          <span nz-icon nzType="home"></span>
+          <span>Trang chủ</span>
+        </li>
+        <li nz-submenu nzTheme="light" nzTitle="Lớp học" nzIcon="book" (click)="handleOpenBlock($event)">
+          @if (listClass) {
+          <ul>
+            @for (item of listClass; track $index) {
+            <li nz-menu-item routerLinkActive="active" [routerLink]="['class', item.name]" [nzMatchRouter]="true">Lớp
+              {{item.name}}</li>
+            }
+          </ul>
+
+          }
+        </li>
+        <li nz-menu-item routerLink="/teacher/folder" routerLinkActive="active" [nzMatchRouter]="true">
+          <span nz-icon nzType="folder"></span>
+          <span>Thư mục</span>
+        </li>
+        <li nz-menu-item routerLink="/teacher/works" routerLinkActive="active" [nzMatchRouter]="true">
+          <span nz-icon nzType="carry-out"></span>
+          <span>Công việc</span>
+        </li>
+        <li nz-menu-item>
+          <span nz-icon nzType="setting"></span>
+          <span>Cài đặt</span>
+        </li>
+        <li nz-menu-item>
+          <span nz-icon nzType="question-circle"></span>
+          <span>Hỗ trợ</span>
+        </li>
+      </ul>
+    </nz-sider>
+    <nz-content class="min-h-full pb-14">
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+
+</div>
+<nz-modal [(nzVisible)]="isModalVisible" nzTitle="Thông báo" (nzOnCancel)="closeModal()" (nzOnOk)="closeModal()">
+  <ng-container *nzModalContent>
+
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-control [nzXs]="24" [nzSm]="24" [nzErrorTip]="'Vui lòng không để trống'">
+          <input class="passenger-input" nz-input placeholder="Nhập mã lớp" formControlName="name" required />
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>

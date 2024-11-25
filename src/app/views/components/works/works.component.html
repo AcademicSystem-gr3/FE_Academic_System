@@ -1,0 +1,87 @@
+<nz-calendar [(ngModel)]="selectedDate" [nzMode]="mode" (nzPanelChange)="panelChange($event)"
+    (nzSelectChange)="selectChange($event)">
+
+    <ng-container *nzDateCell="let date">
+        <div (contextmenu)="onRightClick($event, date, menu)" class="calendar-cell">
+            <!-- Lấy dữ liệu theo khóa tháng-ngày từ listDataMap -->
+            <ul *ngIf="listDataMap[getMonthDayKey(date)] as events" class="events">
+                <li *ngFor="let item of events">
+                    <nz-badge [nzStatus]="item.type" [nzText]="item.content"></nz-badge>
+                </li>
+            </ul>
+        </div>
+    </ng-container>
+
+    <ng-container *nzMonthCell="let month">
+        <div class="notes-month">
+            <ng-container *ngIf="getMonthData(month) as monthData">
+                <section>{{ monthData }}</section>
+                <span>Backlog number</span>
+            </ng-container>
+        </div>
+    </ng-container>
+</nz-calendar>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu nzSelectable>
+        <li nz-menu-item (click)="showModal()">Thêm công việc</li>
+        <li nz-menu-item>2nd menu item</li>
+        <li nz-menu-item>3rd menu item</li>
+        <li nz-menu-item nzDanger>Xóa công việc</li>
+    </ul>
+</nz-dropdown-menu>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+    class="overflow-scroll">
+    <ng-container *nzModalContent>
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            @for (control of listOfControl; track control; let i = $index) {
+            <nz-form-item>
+
+                <nz-form-label [nzXs]="24" [nzSm]="4" [nzFor]="control.controlInstance"> Công việc </nz-form-label>
+
+                <nz-form-control [nzXs]="24" [nzSm]="20" nzErrorTip="Vui lòng không để trống!">
+                    <input class="passenger-input" nz-input placeholder="Mô tả công việc" [attr.id]="control.id"
+                        [formControlName]="control.controlInstance" />
+                    <span nz-icon nzType="minus-circle-o" class="dynamic-delete-button"
+                        (click)="removeField(control, $event)"></span>
+                </nz-form-control>
+            </nz-form-item>
+
+            <!-- Separate nz-form-item for checkbox -->
+            <nz-form-item>
+
+                <nz-form-label [nzXs]="24" [nzSm]="4" [nzFor]="control.controlInstance"> Màu </nz-form-label>
+
+                <nz-form-control [nzXs]="24" [nzSm]="20">
+
+                    <div nz-row>
+                        <div nz-col nzSpan="4"><label nz-checkbox nzValue="A" [ngModel]="true">
+                                <nz-badge nzStatus="success"></nz-badge>
+                            </label></div>
+                        <div nz-col nzSpan="4"><label nz-checkbox nzValue="B">
+                                <nz-badge nzStatus="error"></nz-badge>
+                            </label></div>
+                        <div nz-col nzSpan="4"><label nz-checkbox nzValue="C">
+                                <nz-badge nzStatus="warning"></nz-badge>
+                            </label></div>
+                        <div nz-col nzSpan="4"><label nz-checkbox nzValue="D">
+                                <nz-badge nzStatus="processing"></nz-badge>
+                            </label></div>
+                    </div>
+
+                </nz-form-control>
+            </nz-form-item>
+            }
+
+            <nz-form-item>
+                <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+                    <button nz-button nzType="dashed" class="add-button" (click)="addField($event)">
+                        <span nz-icon nzType="plus"></span>
+                        Thêm công việc
+                    </button>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-container>
+</nz-modal>

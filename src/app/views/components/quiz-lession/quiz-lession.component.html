@@ -1,0 +1,163 @@
+@if (listLesson.length > 0) {
+<div class="container max-w-[768px] mx-auto">
+    <button nz-dropdown nz-button nzSize="large" nzType="primary" class="max-w-[200px] mb-3"
+        (click)="isVisibleLesion=true">Tạo mục</button>
+    <nz-collapse [nzExpandIconPosition]="'end'" [nzBordered]="false" nzAccordion="true">
+        @for (panel of listLesson; track $index) {
+        <nz-collapse-panel [nzHeader]="panel.lessionName" [nzActive]="panel.status" [nzExtra]="extraTpl"
+            [nzDisabled]="panel.status" (nzActiveChange)="handleOpenCollapse($event, panel.lessionId)">
+            @if (panel.lessionId === currentLessonId) {
+            @for (quiz of listQuiz; track $index) {
+            <div class="flex gap-3 items-center pl-2 [&:not(:first-child)]:my-4">
+                <div class="flex gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        width="24" height="24" x="0" y="0" viewBox="0 0 64 64" style="enable-background:new 0 0 512 512"
+                        xml:space="preserve" class="">
+                        <g>
+                            <g data-name="Layer 7">
+                                <path
+                                    d="M10 11h2v8h2v-8h2V9h-6zM34 11h2v8h2v-8h2V9h-6zM18 10v8a1 1 0 0 0 1 1h5v-2h-4v-2h4v-2h-4v-2h4V9h-5a1 1 0 0 0-1 1zM26 12a3 3 0 0 0 3 3 1 1 0 0 1 0 2h-3v2h3a3 3 0 0 0 0-6 1 1 0 0 1 0-2h3V9h-3a3 3 0 0 0-3 3z"
+                                    fill="#656565" opacity="1" data-original="#000000" class=""></path>
+                                <path
+                                    d="M7 23h36a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1zM8 7h34v14H8zM6 35h6a1 1 0 0 0 1-1v-5.59l2.71-2.7-1.42-1.42-2.7 2.71H6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1zm5-2H8.41L11 30.41zm-1.41-4L7 31.59V29zM12 47H6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H7v-4h4zM13.29 35.29 11.59 37H6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-5.59l1.71-1.7zM9.59 39 7 41.59V39zM11 43H8.41L11 40.41zM15 28h29v2H15zM15 48h13v2H15zM15 52h29v2H15z"
+                                    fill="#656565" opacity="1" data-original="#000000" class=""></path>
+                                <path
+                                    d="m62.71 22.29-4-4a1 1 0 0 0-1.42 0L49 26.59V2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v60a1 1 0 0 0 1 1h46a1 1 0 0 0 1-1V37.41l13.71-13.7a1 1 0 0 0 0-1.42zM34.34 44.75l1.91 1.91-3.35 1.44zM35.41 43 54 24.41 56.59 27 38 45.59zM47 61H3V3h44v25.59L43.59 32H15v2h26.59l-4 4H15v2h20.59l-2 2H15v2h17.48l-2.4 5.61A1 1 0 0 0 31 51a1 1 0 0 0 .39-.08l7-3a1.11 1.11 0 0 0 .32-.21l8.29-8.3zm11-35.41L55.41 23 58 20.41 60.59 23z"
+                                    fill="#656565" opacity="1" data-original="#000000" class=""></path>
+                            </g>
+                        </g>
+                    </svg>
+                    <p class="text-[#3c4043] font-[500]" style="margin:0;">
+                        {{ quiz.quizName }}
+                    </p>
+
+                </div>
+                <div>
+                    <nz-badge nzStatus="success">Đã giao</nz-badge>
+
+                </div>
+
+            </div>
+
+            }
+            }@else{
+            <div class="w-full h-full flex justify-center items-center">
+                <nz-spin nzSimple></nz-spin>
+
+            </div>
+            }
+        </nz-collapse-panel>
+        <ng-template #extraTpl>
+            <!-- You can use stopPropagation if you don't want the panel to toggle -->
+            <span nz-icon nz-dropdown [nzTrigger]="'click'" [nzDropdownMenu]="menuLesson" nzType="setting"
+                (click)="$event.stopPropagation()"></span>
+        </ng-template>
+        <nz-dropdown-menu #menuLesson="nzDropdownMenu">
+            <ul nz-menu>
+                <li nz-menu-item (click)="setLession(panel.lessionId)"><span nz-icon nzType="question" nzTheme="outline"
+                        class="pr-2"></span>Tạo trắc nghiệm</li>
+                <li nz-menu-item><span nz-icon nzType="delete" nzTheme="outline"></span> Xóa phần học</li>
+            </ul>
+        </nz-dropdown-menu>
+        }
+    </nz-collapse>
+
+</div>
+
+
+}@else {
+<div class="w-full h-full flex justify-center items-center">
+    <nz-empty [nzNotFoundContent]="null" class="h-full"
+        nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+        [nzNotFoundContent]="contentTpl" [nzNotFoundFooter]="footerTpl">
+
+        <ng-template #contentTpl>
+            <span>
+                Chưa có bài tập nào được tạo
+            </span>
+        </ng-template>
+        <ng-template #footerTpl>
+            <button nz-button nzType="primary" (click)="isVisibleLesion=true">Tạo ngay</button>
+        </ng-template>
+    </nz-empty>
+</div>
+
+}
+<nz-modal [(nzVisible)]="isVisibleModalUploadFolder" nzTitle="Tạo phần học" (nzOnCancel)="handleCancelUploadExcel()"
+    (nzOnOk)="handleOkUploadExcel()" [nzCancelText]="'Huỷ'" [nzOkText]="'Tạo'" class="overflow-scroll" nzWidth="70%">
+    <ng-container *nzModalContent>
+        <div class="flex gap-2 items-center mb-3">
+            <!-- Form container -->
+            <div class="flex-1">
+                <form nz-form [formGroup]="validateFormQuiz" (ngSubmit)="submitForm()" nzLayout="vertical">
+                    <nz-form-item class="mb-0"> <!-- Thêm mb-0 để loại bỏ margin bottom mặc định -->
+                        <nz-form-label [nzSm]="3" [nzXs]="24" nz-form-label>Phần học:</nz-form-label>
+                        <nz-form-control [nzSm]="21" [nzXs]="24" [nzErrorTip]="'Vui lòng không để trống'">
+                            <input class="passenger-input " nz-input placeholder="tên phần học" formControlName="quiz"
+                                required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </div>
+
+            <!-- Slider container -->
+            <div class="flex-1 flex items-center">
+                <div class="flex items-center">
+                    <label class="mr-2">Thời gian: </label>
+                </div>
+                <nz-slider class="flex-1" [(ngModel)]="singleValue" (ngModelChange)="onChange($event)"
+                    (nzOnAfterChange)="onAfterChange($event)">
+                </nz-slider>
+            </div>
+        </div>
+        <nz-upload nzType="drag" [nzMultiple]="true" nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            (nzChange)="handleChangeQuiz($event)" [nzCustomRequest]="dummyRequest"
+            [nzAccept]="'.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'">
+            <p class="ant-upload-drag-icon">
+                <span nz-icon nzType="inbox"></span>
+            </p>
+            <p className="ant-upload-text">Nhấp hoặc kéo tệp vào khu vực này để tải lên</p>
+            <p className="ant-upload-hint">
+                Hỗ trợ tải lên một lần hoặc hàng loạt. Chỉ chấp nhận .csv, .xls, .xlsx
+            </p>
+            <a href="" download (click)="handleDownloadExcelSample($event)">Tải xuống tệp mẫu</a>
+        </nz-upload>
+        <nz-table #basicTable [nzData]="quizQuestionList" [nzScroll]="{ y: '240px' }" [nzShowPagination]="false">
+            <thead>
+                <tr>
+                    <th>Câu hỏi</th>
+                    <th>Đáp án 1</th>
+                    <th>Đáp án 2</th>
+                    <th>Dáp án 3</th>
+                    <th>Dáp án 4</th>
+                    <th>Đáp án đúng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (item of quizQuestionList; track $index) {
+                <tr>
+                    <td>{{item.Question}}</td>
+                    @for (item of item.ListAnswers; track $index) {
+                    <td>{{item}}</td>
+                    }
+                    <td>{{item.IsCorrect}}</td>
+                </tr>
+                }
+            </tbody>
+        </nz-table>
+    </ng-container>
+</nz-modal>
+<nz-modal [(nzVisible)]="isVisibleLesion" nzTitle="Đặt tên tệp" (nzOnCancel)="handleCancelLesion()"
+    (nzOnOk)="handleOkLesion()" [nzCancelText]="'Huỷ'" [nzOkText]="'Tạo'">
+    <ng-container *nzModalContent>
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <nz-form-item>
+                <nz-form-control [nzXs]="24" [nzSm]="24" [nzErrorTip]="'Vui lòng không để trống'">
+                    <input class="passenger-input" nz-input placeholder="tên phần học" formControlName="class"
+                        required />
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+
+    </ng-container>
+</nz-modal>
